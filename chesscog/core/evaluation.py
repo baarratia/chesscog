@@ -67,7 +67,7 @@ def evaluate(model_path: Path, datasets: typing.List[Datasets], output_folder: P
     if not config_file.exists():
         raise ValueError("config file missing")
     cfg = CN.load_yaml_with_base(config_file)
-    model = torch.load(model_path, map_location=DEVICE)
+    model = torch.load(model_path, map_location=DEVICE, weights_only=False)
     model = device(model)
     model.eval()
     datasets = {mode: build_dataset(cfg, mode)
