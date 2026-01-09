@@ -5,7 +5,14 @@ import functools
 from collections.abc import Iterable
 
 #: Device to be used for computation (GPU if available, else CPU).
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+def _get_device():
+    if torch.cuda.is_available():
+        return "cuda"
+    elif torch.backends.mps.is_available():
+        return "mps"
+    return "cpu"
+
+DEVICE = _get_device()
 
 T = typing.Union[torch.Tensor, torch.nn.Module, typing.List[torch.Tensor],
                  tuple, dict, typing.Generator]
